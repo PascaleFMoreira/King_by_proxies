@@ -71,3 +71,11 @@ Some correlations of WFA, LOCUS_SF, BFA and BRAM_STOKER & DEUTSCHER PHANTASTIK w
 
 Strongest intercorrelations of prizes are between LOCUS_SF and BFA, and between BRAM_STOKER and DEUTSCHER PHANTASTIK, and BRAM_STOKER and LOCUS_HORROR (prob. genre-related). Note that negative correlation between LOCUS_SF and LOCUS_HORROR is prob. also because of genre. 
 
+## On the entropy of ratings (goodreads)
+- studies before have found that titles with a high number of ratings also have a more polarised reception (i.e., more 1s and 5s) - which would mean that the distribution would (supposedly) have a higher entropy. We see here though that entropy has a negative correlation to rating count (spearman 0.45, p<0.01) - so in the case of king, the more highly rated books also have a lower entropy, i.e., less disagreement between raters. 
+
+You can see the distribution at: 'rating_entropy_vs_rating_counts.png' --- and have a look at the [interactive figure here](https://pascalefmoreira.github.io/pascalefeldkamp/show_stuff_page_2.html)
+
+0.45 is a robust correlation, so let's make sure this is right before going further. 
+
+We might also want to try out other correlations with entropy, where high entropy might indicate "contested titles", e.g. looking at whether these are less likely to win prizes etc.

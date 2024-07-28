@@ -167,9 +167,9 @@ plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'RATING_COUNT', '', 1
 df.head()
 # %%
 # dump to json and excel
-df.to_excel('data/king_w_data_updated.xlsx')
+# df.to_excel('data/king_w_data_updated.xlsx')
 
-df = pd.read_excel('data/king_w_data_updated.xlsx')
-df.head()
-df.to_json('data/king_books_w_data.json')
+# df = pd.read_excel('data/king_w_data_updated.xlsx')
+# df.head()
+# df.to_json('data/king_books_w_data.json')
 # %%
