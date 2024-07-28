@@ -1,0 +1,47 @@
+
+
+Top 10 books with Prize wins/noms:
+
+                                    TITLE  WC_LIBRARIES  OPEN_SYLLABUS_APPEARANCES  TRANSLATION_COUNT  sum_prize_wins_noms
+43                          Lisey's Story          3702                          2                 27                  4.0
+50                           Doctor Sleep          3656                          1                  0                  3.0
+47                               11/22/63          3958                          0                  0                  3.0
+40     The Dark Tower VII: The Dark Tower          3151                          5                 54                  3.0
+38  The Dark Tower V: Wolves of the Calla          3248                          0                 22                  3.0
+36                            Black House          3350                         15                 38                  3.0
+33                           Bag of Bones          3661                          4                 52                  3.0
+18                                     It          4725                          0                 71                  3.0
+15                           The Talisman          3303                          1                 56                  2.0
+46                         Under the Dome          3604                          3                  1                  2.0
+
+
+
+Top 10 books with Most ratings:
+
+                             TITLE  WC_LIBRARIES  OPEN_SYLLABUS_APPEARANCES  TRANSLATION_COUNT  most_ratings
+2                      The Shining          4437                        140                 84       1585481
+18                              It          4725                          0                 71       1182446
+4                        The Stand          2979                         24                 69        805890
+0                           Carrie          3780                         54                 70        785188
+20                          Misery          4267                         29                 74        756870
+11  The Dark Tower: The Gunslinger          4102                          4                 43        654553
+13                    Pet Sematary          3879                         15                 67        643416
+47                        11/22/63          3958                          0                  0        589780
+1                      Salem's Lot          3665                         78                 82        496721
+51                    Mr. Mercedes          3355                          2                  0        349008
+
+
+
+Top 10 books with Highest mean avg rating:
+
+                                          TITLE  WC_LIBRARIES  OPEN_SYLLABUS_APPEARANCES  TRANSLATION_COUNT  highest_mean_avg_rating
+29                               The Green Mile          1196                          8                 75                    4.450
+47                                     11/22/63          3958                          0                  0                    4.325
+4                                     The Stand          2979                         24                 69                    4.280
+40           The Dark Tower VII: The Dark Tower          3151                          5                 54                    4.265
+2                                   The Shining          4437                        140                 84                    4.230
+23          The Dark Tower III: The Waste Lands          3662                          0                 38                    4.215
+32          The Dark Tower IV: Wizard and Glass          3443                          0                  0                    4.200
+20                                       Misery          4267                         29                 74                    4.180
+19  The Dark Tower II: The Drawing of the Three          3752                          1                 45                    4.180
+59                                The Institute          3134                          0                  0                    4.155
