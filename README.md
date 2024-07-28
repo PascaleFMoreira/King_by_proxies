@@ -8,7 +8,7 @@
 ### Note on translations & editions numbers
 So the strong correlation between e.g. Translations and GR_edtions as well as WC_editions might be explained by the fact that these also list translations as editions. So the number of editions is the sum of the number of translations and the number of editions in the original language. (see 'clustermap.png')
 
-<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/clustermap.png" width="45%" align="right" />
+<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/clustermap.png" width="50%" align="right" />
 
 
 ### Translations/libraries/opensyllabus
@@ -36,7 +36,7 @@ Some correlations of WFA, LOCUS_SF, BFA and BRAM_STOKER & DEUTSCHER PHANTASTIK w
 
 Strongest intercorrelations of prizes are between LOCUS_SF and BFA, and between BRAM_STOKER and DEUTSCHER PHANTASTIK, and BRAM_STOKER and LOCUS_HORROR (prob. genre-related). Note that negative correlation between LOCUS_SF and LOCUS_HORROR is prob. also because of genre. 
 
-<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/expanded_clustermap.png" width="70%" align="right" />
+<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/expanded_clustermap.png" width="100%" align="right" />
 
 ## On the entropy of ratings (goodreads)
 - studies before have found that titles with a high number of ratings also have a more polarised reception (i.e., more 1s and 5s) - which would mean that the distribution would (supposedly) have a higher entropy. We see here though that entropy has a negative correlation to rating count (spearman 0.45, p<0.01) - so in the case of king, the more highly rated books also have a lower entropy, i.e., less disagreement between raters. 
