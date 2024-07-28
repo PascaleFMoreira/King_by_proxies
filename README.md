@@ -16,7 +16,7 @@ Interestingly, the editions counts, translations and opensyllabus appearances se
 
 See also 'libraries_vs_translations/opensyllabus.png' for a scatterplot
 
-<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/libraries_vs_transalations%3Aopensyllabus.png" width="80%" align="right" />
+<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/libraries_vs_transalations%3Aopensyllabus.png" width="100%" align="right" />
 
 
 
