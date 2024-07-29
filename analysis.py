@@ -46,11 +46,11 @@ plt.show()
 # %%
 # let's inlude the prizes in the heatmap
 # we want to convert letters (W, N) to 1 in all columns
-columns_to_replace = ['LOCUS_SF', 'LOCUS_HORROR', 'LOCUS_FANTASY', 'WFA',
+columns_to_replace_prizes = ['LOCUS_SF', 'LOCUS_HORROR', 'LOCUS_FANTASY', 'WFA',
        'BFA', 'BRAM_STOKER', 'EDGAR_AWARD', 'DEUTSCHER_PHANTASTIK_PREIS']
 df_transformed = df_only_proxies.copy()
-df_transformed[columns_to_replace] = df_transformed[columns_to_replace].replace({'W': 1, 'N': 1})
-df_transformed[columns_to_replace] = df_transformed[columns_to_replace].fillna(0)
+df_transformed[columns_to_replace_prizes] = df_transformed[columns_to_replace_prizes].replace({'W': 1, 'N': 1})
+df_transformed[columns_to_replace_prizes] = df_transformed[columns_to_replace_prizes].fillna(0)
 
 sns.set_style('whitegrid')
 filter_df = df_transformed.drop(columns=['TITLE'])
@@ -64,7 +64,7 @@ plt.show()
 # has highest mean average rating
 
 # Compute the row-wise sum
-df_transformed['sum_prize_wins_noms'] = df_transformed[columns_to_replace].sum(axis=1)
+df_transformed['sum_prize_wins_noms'] = df_transformed[columns_to_replace_prizes].sum(axis=1)
 
 rating_cols = ['RATING_COUNT', 'STORYGR_RATING_COUNT']
 df_transformed['most_ratings'] = df_transformed[rating_cols].sum(axis=1)
@@ -122,27 +122,38 @@ print(list(df['GR_RATING_DICT']))
 # %%
 # we want to make sure we get everything in dictionary form
 # Define a function to safely convert string to dictionary
-def rating_dist_to_list(rating_str):
-    # Convert the string to a dictionary
-    rating_dict = json.loads(rating_str.replace("'", '"'))
+# def rating_dist_to_list(rating_str):
+#     # Convert the string to a dictionary
+#     rating_dict = json.loads(rating_str.replace("'", '"'))
     
-    # Create a list of ratings based on the count
-    rating_list = []
-    for rating, count in rating_dict.items():
-        rating_list.extend([int(rating)] * count)
+#     # Create a list of ratings based on the count
+#     rating_list = []
+#     for rating, count in rating_dict.items():
+#         rating_list.extend([int(rating)] * count)
     
-    return rating_list
+#     return rating_list
 
-# Apply the function to the DataFrame column
-df['RATING_DIST_LIST'] = df['GR_RATING_DICT'].apply(rating_dist_to_list)
+# # Apply the function to the DataFrame column
+# df['RATING_DIST_LIST'] = df['GR_RATING_DICT'].apply(rating_dist_to_list)
+
+# Function to compute entropy from a list of ratings
+def compute_entropy(rating_list):
+    # Calculate the frequency of each rating
+    values, counts = np.unique(rating_list, return_counts=True)
+    probabilities = counts / counts.sum()
+    
+    # Compute the entropy
+    ent = stats.entropy(probabilities, base=2)  # base 2 for entropy in bits
+    return ent
+
+# Apply the entropy computation to the DataFrame column
+df['RATING_DIST_ENTROPY'] = df['RATING_DIST_LIST'].apply(compute_entropy)
 
 df.head()
-
-
 # %%
 # We basically do what Maity et al. (2018) also did: https://arxiv.org/pdf/1809.07354.pdf
 # Calculate the entropy of ditributions
-df['RATING_DIST_ENTROPY'] = df['RATING_DIST_LIST'].apply(lambda x: nk.entropy_shannon([float(item) for item in x])[0]) # Just get the entropy [0] not the dict
+#df['RATING_DIST_ENTROPY'] = df['RATING_DIST_LIST'].apply(lambda x: nk.entropy_shannon([float(item) for item in x])[0]) # Just get the entropy [0] not the dict
 df.head()
 # %%
 # is there a correlation between entropy and rating count?
@@ -162,6 +173,26 @@ for col in cols:
 
 # %%
 plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'RATING_COUNT', '', 1000, 500, 'TITLE', color_canon=False, save=True)
+plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'AVG_RATING', '', 1000, 500, 'TITLE', color_canon=False, save=False)
+
+# %%
+# see if the prize-winning books have higher entropy
+# Compute the row-wise sum
+df_prizes = df.copy()
+df_prizes[columns_to_replace_prizes] = df_prizes[columns_to_replace_prizes].replace({'W': 1,'N': 1})
+df_prizes['prize_wins'] = df_prizes[columns_to_replace_prizes].fillna(0).astype(int).max(axis=1)
+
+# scatterplot to see
+plotly_viz_correlation_improved(df_prizes, 'RATING_DIST_ENTROPY', 'RATING_COUNT', 'prize_wins', 1000, 500, 'TITLE', color_canon=True, save=False)
+
+# distributions comparison of the two groups (prize/no prize)
+wins = df_prizes[df_prizes['prize_wins'] == 1]
+no_wins = df_prizes[df_prizes['prize_wins'] == 0]
+
+measures = ['RATING_DIST_ENTROPY', 'RATING_COUNT', 'AVG_RATING']
+histplot_two_groups(wins, no_wins, measures, measures, ['prizes', 'no_prizes'], 20, 8, 'comparing groups', density=False, save=False, save_title=False)
+
+
 
 # %%
 df.head()

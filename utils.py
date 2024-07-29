@@ -125,21 +125,21 @@ def pairwise_boxplots_canon(df, measures, category, category_labels, plottitle, 
 
 
 # Histplot, two groups
-def histplot_two_groups(implicit_df, explicit_df, measure_list, labels, l, h, title_plot, density=False, save=False, save_title=False):
+def histplot_two_groups(df1, df2, measure_list, labels, group_labels, l, h, title_plot, density=False, save=False, save_title=False):
 
     sns.set_theme(style="whitegrid", font_scale=1.5)
-    fig, axes_list = plt.subplots(1, len(measure_list), figsize=(l, h), dpi=500)#, sharey=True)
+    fig, axes_list = plt.subplots(1, len(measure_list), figsize=(l, h), dpi=500)
     
     for i, measure in enumerate(measure_list):
         ax = axes_list.flat[i]
         if density == True:
-            sns.histplot(data=implicit_df, x=measure, ax=ax, color='blue', kde=True, label='implicit', stat='density')
-            sns.histplot(data=explicit_df, x=measure, ax=ax, color='red', kde=True, label='explicit', stat='density')
+            sns.histplot(data=df1, x=measure, ax=ax, color='blue', kde=True, label=group_labels[0], stat='density')
+            sns.histplot(data=df2, x=measure, ax=ax, color='red', kde=True, label=group_labels[1], stat='density')
         else:
-            sns.histplot(data=implicit_df, x=measure, ax=ax, color='blue', kde=True, label='implicit')
-            sns.histplot(data=explicit_df, x=measure, ax=ax, color='red', kde=True, label='explicit')
+            sns.histplot(data=df1, x=measure, ax=ax, color='blue', kde=True, label=group_labels[0])
+            sns.histplot(data=df2, x=measure, ax=ax, color='red', kde=True, label=group_labels[1])
 
-        ax.set_xlabel(labels[i].split('_')[1])
+        ax.set_xlabel(labels[i])
 
         if i >= 1:
             ax.set_ylabel('')
@@ -249,7 +249,7 @@ def plotly_viz_correlation_improved(df, first, second, canon_col_name, w, h, hov
 
     # We also want the corr of the canon if color_canon == True
     if color_canon == True:
-        canon_only_df = dat.loc[dat['CANON_ALL'] == 1]
+        canon_only_df = dat.loc[dat[canon_col_name] == 1]
         # remove 0 values to do the correlation
         df_canon = canon_only_df[(canon_only_df[first].notnull()) & (canon_only_df[second].notnull())]
         print('number of titles considered: ', len(df_canon))
@@ -273,11 +273,11 @@ def plotly_viz_correlation_improved(df, first, second, canon_col_name, w, h, hov
 
     ## Plot
     if color_canon == True:
-        fig = px.scatter(dat, x=first, y=second, hover_data= {'CANON_ALL':False, 'TITLE':True, 'AUTH_LAST':True}, #['TITLE_MODERN', 'AUTH_LAST_MODERN'], 
+        fig = px.scatter(dat, x=first, y=second, hover_data= {f'{canon_col_name}':False, 'TITLE':True, 'AUTH_LAST':True}, #['TITLE_MODERN', 'AUTH_LAST_MODERN'], 
                         opacity=0.6, #marginal_x="histogram", #marginal_y="histogram", 
                         title=f"{title}<br><sup>{subtitle}</sup>", labels=labels, 
                         #color_discrete_sequence=px.colors.qualitative.Dark24, 
-                        color='CANON_ALL', symbol="CANON_ALL", 
+                        color=canon_col_name, symbol=canon_col_name, 
                         width=w, height=h, color_discrete_sequence=list(colorsId.values()))
         
     if color_canon == False:
@@ -305,7 +305,7 @@ def plotly_viz_correlation_improved(df, first, second, canon_col_name, w, h, hov
         if os.path.exists('figures') == True:
             fig.write_html(f'figures/{first}_{second}_scatterplot.html')
         else:
-            print('Sucker. Please create a folder called figures in the directory where you want to save the plots')
+            print('Sucker. Please create a folder called "figures" in the directory where you want to save the plots')
 
     return fig
 

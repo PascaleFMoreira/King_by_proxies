@@ -1,6 +1,6 @@
 # KING colab
 
-
+I found this was an interesting excerpt from NYTimes article on King winning the National Book Award: ```Told of Mr. King's selection, some in the literary world responded with laughter and dismay. ''He is a man who writes what used to be called penny dreadfuls,'' said Harold Bloom, the Yale professor, critic and self-appointed custodian of the literary canon. ''That they could believe that there is any literary value there or any aesthetic accomplishment or signs of an inventive human intelligence is simply a testimony to their own idiocy.```
 # Prelim. results
 
 ## On correlations between proxies
