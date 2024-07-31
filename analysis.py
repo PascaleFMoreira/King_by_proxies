@@ -242,7 +242,7 @@ for id in book_ids:
     dist_list.append(dists)
 
 
-fig, ax = plt.subplots(1, len(dist_list), figsize=(13, 5), sharey=True)
+fig, ax = plt.subplots(1, len(dist_list), figsize=(18, 6), sharey=True)
 
 for i, dist in enumerate(dist_list):
     counts = np.bincount(dist, minlength=6)[1:6]
@@ -263,13 +263,14 @@ for i, dist in enumerate(dist_list):
 
     # Add annotation
     for p in ax[i].patches:
-        ax[i].annotate(format(p.get_height(), '.1f'),
+        ax[i].annotate(f'{p.get_height():.1f}%',  # Adding the percentage sign
                     (p.get_x() + p.get_width() / 2,
-                        p.get_height()), ha='center', va='center',
-                    size=12)
+                        p.get_height() + 0.8), ha='center', va='center',
+                    size=11)
 
     # Set title for each subplot
     ax[i].set_title(f'{title} \n avg. rating: {rating} \n H = {entropy:.2f} / $\\sigma$ = {std:.2f}')
+    ax[i].set_xticks(np.arange(1, 6))
 
 ax[0].set_ylabel('Percentage')
 
