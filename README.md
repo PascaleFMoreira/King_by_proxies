@@ -51,7 +51,8 @@ Strongest intercorrelations of prizes are between LOCUS_SF and BFA, and between 
 
 We see here though that entropy has a negative correlation to rating count (spearman 0.45, p<0.01) - so in the case of king, the more highly rated books also have a lower entropy, i.e., less disagreement between raters. 0.45 is a robust correlation, and it does not seem to be as strong when looking at a larger corpus of books on GoodReads (did some cross-checking, where we see a correlation between entrpy/rating count at 0.22).
 
-<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/rating_entropy_vs_rating_count.png" width="70%" align="right" />
+<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/rating_entropy_vs_rating_count.png" width="100%" align="right" />
+
 See the scatterplot of rating count/entropy above (also in figures: 'rating_entropy_vs_rating_counts.png') --- and have a look at the [interactive figure here](https://pascalefmoreira.github.io/pascalefeldkamp/show_stuff_page_2.html)
 
 A few examples of the distributions of books with very high and very low entropy of their rating distributions:
