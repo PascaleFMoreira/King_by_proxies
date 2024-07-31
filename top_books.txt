@@ -16,7 +16,7 @@ Top 10 books with Prize wins/noms:
 
 
 
-Top 10 books with Most ratings:
+Top 10 books with Most ratings (GoodReads/StoryGraph combined):
 
                              TITLE  WC_LIBRARIES  OPEN_SYLLABUS_APPEARANCES  TRANSLATION_COUNT  most_ratings
 2                      The Shining          4437                        140                 84       1585481
@@ -32,7 +32,7 @@ Top 10 books with Most ratings:
 
 
 
-Top 10 books with Highest mean avg rating:
+Top 10 books with Highest mean avg rating (GoodReads/StoryGraph combined):
 
                                           TITLE  WC_LIBRARIES  OPEN_SYLLABUS_APPEARANCES  TRANSLATION_COUNT  highest_mean_avg_rating
 29                               The Green Mile          1196                          8                 75                    4.450
@@ -45,3 +45,51 @@ Top 10 books with Highest mean avg rating:
 20                                       Misery          4267                         29                 74                    4.180
 19  The Dark Tower II: The Drawing of the Three          3752                          1                 45                    4.180
 59                                The Institute          3134                          0                  0                    4.155
+
+
+
+Top 10 books with Open Syllabus appearances:
+
+                            TITLE  WC_LIBRARIES  OPEN_SYLLABUS_APPEARANCES  TRANSLATION_COUNT  OPEN_SYLLABUS_APPEARANCES
+2                     The Shining          4437                        140                 84                        140
+1                     Salem's Lot          3665                         78                 82                         78
+0                          Carrie          3780                         54                 70                         54
+20                         Misery          4267                         29                 74                         29
+34  The Girl Who Loved Tom Gordon          3637                         25                 39                         25
+4                       The Stand          2979                         24                 69                         24
+6                   The Dead Zone          3250                         20                 75                         20
+13                   Pet Sematary          3879                         15                 67                         15
+36                    Black House          3350                         15                 38                         15
+10                The Running Man          1171                         15                 27                         15
+
+
+
+Top 10 books with WorldCat libraries:
+
+                                          TITLE  WC_LIBRARIES  OPEN_SYLLABUS_APPEARANCES  TRANSLATION_COUNT  WC_LIBRARIES
+18                                           It          4725                          0                 71          4725
+2                                   The Shining          4437                        140                 84          4437
+20                                       Misery          4267                         29                 74          4267
+11               The Dark Tower: The Gunslinger          4102                          4                 43          4102
+47                                     11/22/63          3958                          0                  0          3958
+13                                 Pet Sematary          3879                         15                 67          3879
+42                                         Cell          3809                          7                 39          3809
+0                                        Carrie          3780                         54                 70          3780
+19  The Dark Tower II: The Drawing of the Three          3752                          1                 45          3752
+26                            Dolores Claiborne          3719                          2                 54          3719
+
+
+
+Top 10 books with Translations:
+
+             TITLE  WC_LIBRARIES  OPEN_SYLLABUS_APPEARANCES  TRANSLATION_COUNT  TRANSLATION_COUNT
+2      The Shining          4437                        140                 84                 84
+1      Salem's Lot          3665                         78                 82                 82
+29  The Green Mile          1196                          8                 75                 75
+6    The Dead Zone          3250                         20                 75                 75
+20          Misery          4267                         29                 74                 74
+7      Firestarter          3495                          7                 71                 71
+18              It          4725                          0                 71                 71
+0           Carrie          3780                         54                 70                 70
+12       Christine          3418                          1                 69                 69
+4        The Stand          2979                         24                 69                 69

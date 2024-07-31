@@ -75,7 +75,7 @@ df_transformed['most_ratings'] = df_transformed[rating_cols].sum(axis=1)
 avg_rating_cols = ['AVG_RATING', 'STORYGR_AVG_RATING']
 df_transformed['highest_mean_avg_rating'] = df_transformed[avg_rating_cols].mean(axis=1)
 
-things_to_sort_on = ['sum_prize_wins_noms', 'most_ratings', 'highest_mean_avg_rating']
+things_to_sort_on = ['sum_prize_wins_noms', 'most_ratings', 'highest_mean_avg_rating', 'OPEN_SYLLABUS_APPEARANCES', 'WC_LIBRARIES', 'TRANSLATION_COUNT']
 
 lst_df_slices = []
 
@@ -85,7 +85,7 @@ for var in things_to_sort_on:
     print(top_10[['TITLE', 'WC_LIBRARIES', 'OPEN_SYLLABUS_APPEARANCES', 'TRANSLATION_COUNT', var]])
 
 # Combine the strings
-labels = ['Prize wins/noms', 'Most ratings', 'Highest mean avg rating']
+labels = ['Prize wins/noms', 'Most ratings (GoodReads/StoryGraph combined)', 'Highest mean avg rating (GoodReads/StoryGraph combined)', 'Open Syllabus appearances', 'WorldCat libraries', 'Translations']
 for i, label in enumerate(labels):
     lst_df_slices[i] = f'\n\nTop 10 books with {label}:\n\n' + lst_df_slices[i]
 

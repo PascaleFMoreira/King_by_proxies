@@ -4,6 +4,9 @@ See the main data in ```data/king_books_w_data.json``` or in ```data/king_w_data
 
 # Prelim. results
 
+## Individual titles
+You can see the top10 titles in some of the proxies in ```top_books.txt``` (e.g. top10 in rating count, avg rating, translation numbers, etc. etc.)
+
 ## Awards wins/nominations
 Note that the majority of king's books have won or have been nominated for an award
 38 books were nominated for at least 1 award 
