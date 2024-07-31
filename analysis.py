@@ -136,19 +136,27 @@ print(list(df['GR_RATING_DICT']))
 # %%
 # we want to make sure we get everything in dictionary form
 # Define a function to safely convert string to dictionary
-def rating_dist_to_list(rating_str):
+def rating_dist_to_dict(rating_str):
     # Convert the string to a dictionary
     rating_dict = json.loads(rating_str.replace("'", '"'))
-# Create a list of ratings based on the count
+    return rating_dict
+
+def rating_dict_to_list(rating_dict):
     rating_list = []
     for rating, count in rating_dict.items():
+        # Create a list of ratings based on the count
         rating_list.extend([int(rating)] * count)
-    
+    print(list(set(rating_list)))
     return rating_list
 
 # Apply the function to the DataFrame column
-df['RATING_DIST_LIST'] = df['GR_RATING_DICT'].apply(rating_dist_to_list)
+df['RATING_DIST_DICT'] = df['GR_RATING_DICT'].apply(rating_dist_to_dict)
 df.head()
+
+# %%
+df['RATING_DIST_LIST'] = df['RATING_DIST_DICT'].apply(rating_dict_to_list)
+df.head()
+df['RATING_DIST_LIST']
 
 # %%
 # Function to compute entropy from a list of ratings
@@ -181,6 +189,14 @@ df['RATING_DIST_SKEW'] = df['RATING_DIST_LIST'].apply(check_skew)
 df['RATING_DIST_STD'] = df['RATING_DIST_LIST'].apply(lambda x: np.std([float(item) for item in x]))
 df.head()
 
+
+# %%
+# # get the average rating from the dictionary for each row
+# df['RATING_FROM_DICT'] = df['RATING_DIST_LIST'].apply(lambda x: np.mean([float(item) for item in x]))
+# df['RATING_FROM_DICT']
+
+# # %%
+# df['AVG_RATING']
 # %%
 # is there a correlation between these and rating count?
 
@@ -223,6 +239,59 @@ histplot_two_groups(wins, no_wins, measures, measures, ['prizes', 'no_prizes'], 
 
 # %%
 df.head()
+
+df.loc[df['TITLE'] == 'The Stand']
+# %%
+
+# We need to flatten
+def flatten_list(lst):
+    return [item for sublist in lst for item in sublist]
+
+book_ids = ['978-0-752-86433-4', '978-0-385-12168-2', '978-0-670-81302-5', '978-1-78909-649-1','978-0-399-13314-5', '978-0-670-84650-4']
+
+dist_list = []
+
+for id in book_ids:
+    title = df['TITLE'].loc[df['ISBN'] == id]
+    row = df.loc[df['ISBN'] == id]
+    dists = flatten_list(row['RATING_DIST_LIST'])
+    dist_list.append(dists)
+
+
+fig, ax = plt.subplots(1, len(dist_list), figsize=(13, 5), sharey=True)
+
+for i, dist in enumerate(dist_list):
+    counts = np.bincount(dist, minlength=6)[1:6]
+    
+    total_ratings = len(dist)
+    percentages = (counts / total_ratings) * 100
+
+    # Extract book title
+    title = df['TITLE'].loc[df['ISBN'] == book_ids[i]].values[0]
+    rating = df['AVG_RATING'].loc[df['ISBN'] == book_ids[i]].values[0]
+    entropy = df['RATING_DIST_ENTROPY'].loc[df['ISBN'] == book_ids[i]].values[0]
+    std = df['RATING_DIST_STD'].loc[df['ISBN'] == book_ids[i]].values[0]
+
+    if entropy > 1.7:
+        ax[i].bar(np.arange(1, 6), percentages, width=0.7, alpha=0.7, color='lightcoral')
+    else:
+        ax[i].bar(np.arange(1, 6), percentages, width=0.7, alpha=0.7, color='steelblue')
+
+    # Add annotation
+    for p in ax[i].patches:
+        ax[i].annotate(format(p.get_height(), '.1f'),
+                    (p.get_x() + p.get_width() / 2,
+                        p.get_height()), ha='center', va='center',
+                    size=12)
+
+    # Set title for each subplot
+    ax[i].set_title(f'{title} \n avg. rating: {rating} \n H = {entropy:.2f} / $\\sigma$ = {std:.2f}')
+
+ax[0].set_ylabel('Percentage')
+
+plt.tight_layout()
+plt.show()
+
 # %%
 # # dump to json and excel
 # df.to_excel('data/king_w_data_updated.xlsx')
@@ -233,3 +302,4 @@ df.head()
 # # %%
 # df.to_json('data/king_books_w_data.json')
 # %%
+
