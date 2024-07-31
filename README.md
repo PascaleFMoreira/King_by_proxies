@@ -60,5 +60,6 @@ A few examples of the distributions of books with very high and very low entropy
 
 ## We could do some more on comparing prizes/no prizes groups
 I just did a little comparison with the GoodReads data (but could also be checked for translations, libraries, etc., trying to gauge the "importance" of the prize-winning books in terms of other proxies)
-See e.g.:
+See e.g. here, looks like, at least, books with nominations/prizes have slightly higher rating counts:
+
 <img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/wins_noms_compared.png" width="100%" align="right" />
