@@ -5,15 +5,17 @@ import utils
 reload(utils)
 
 # %%
+# Load the data
 with open('data/king_books_w_data.json', 'r') as f:
     data = json.load(f)
 
+# Create a DataFrame
 df = pd.DataFrame.from_dict(data)
 df.head()
 
+
 # %%
-df.columns
-# %%
+# make some dataframes with selected columns
 df_only_proxies = df[['TITLE', 
                       'RATING_COUNT', 'AVG_RATING', 'GR_NO_EDITIONS',
        'WC_EDITIONS', 'WC_LIBRARIES', 
@@ -21,6 +23,8 @@ df_only_proxies = df[['TITLE',
        'TRANSLATION_COUNT', 'OPEN_SYLLABUS_APPEARANCES',
        'LOCUS_SF', 'LOCUS_HORROR', 'LOCUS_FANTASY', 'WFA',
        'BFA', 'BRAM_STOKER', 'EDGAR_AWARD', 'DEUTSCHER_PHANTASTIK_PREIS']]
+
+# and one only with the continuous (scaled) variables
 df_only_cont = df[['TITLE', 
                       'RATING_COUNT', 'AVG_RATING',
                       'STORYGR_RATING_COUNT', 'STORYGR_AVG_RATING', 
@@ -28,10 +32,9 @@ df_only_cont = df[['TITLE',
        'WC_EDITIONS', 'WC_LIBRARIES', 
        'TRANSLATION_COUNT', 'OPEN_SYLLABUS_APPEARANCES']]
 # %%
-
 # PART 1: CORRELATIONS
 
-# Lets make a heatmap
+# Lets make a heatmap to get the correlation between the continuous variables
 sns.set_style('whitegrid')
 plt.figure(figsize=(7, 4))
 filter_df = df_only_cont.drop(columns=['TITLE'])
@@ -39,7 +42,7 @@ corr_df = filter_df.corr(method='spearman')
 sns.heatmap(corr_df, annot=True, cbar=False)
 plt.show()
 
-# Lets make a clustermap
+# Lets make a clustermap of the same
 sns.set_style('whitegrid')
 filter_df = df_only_cont.drop(columns=['TITLE'])
 corr_df = filter_df.corr(method='spearman')
@@ -55,28 +58,35 @@ df_transformed = df_only_proxies.copy()
 df_transformed[columns_to_replace_prizes] = df_transformed[columns_to_replace_prizes].replace({'W': 1, 'N': 1})
 df_transformed[columns_to_replace_prizes] = df_transformed[columns_to_replace_prizes].fillna(0)
 
+# then we can make a clustermap
 sns.set_style('whitegrid')
 filter_df = df_transformed.drop(columns=['TITLE'])
 corr_df = filter_df.corr(method='spearman')
-sns.clustermap(corr_df, annot=True, cbar=False, figsize=(18, 16))
+sns.clustermap(corr_df, annot=True, cbar=False, figsize=(12, 12))
 plt.show()
 
 # %%
 # let's see which won/was nominated for most prizes
 # has most ratings
-# has highest mean average rating
+# has highest mean average rating,
+# etc.
 
-# Compute the row-wise sum
+# Compute the row-wise sum of the prizes columns that we already converted from letters to 1s
 df_transformed['sum_prize_wins_noms'] = df_transformed[columns_to_replace_prizes].sum(axis=1)
 
+# Compute the row-wise sum of the ratings columns
 rating_cols = ['RATING_COUNT', 'STORYGR_RATING_COUNT']
 df_transformed['most_ratings'] = df_transformed[rating_cols].sum(axis=1)
 
+# Compute the row-wise MEAN of the average rating columns
 avg_rating_cols = ['AVG_RATING', 'STORYGR_AVG_RATING']
 df_transformed['highest_mean_avg_rating'] = df_transformed[avg_rating_cols].mean(axis=1)
 
+# also include the number of translations, libraries and open syllabus appearances
 things_to_sort_on = ['sum_prize_wins_noms', 'most_ratings', 'highest_mean_avg_rating', 'OPEN_SYLLABUS_APPEARANCES', 'WC_LIBRARIES', 'TRANSLATION_COUNT']
 
+
+# we make a loop to get the top10 titles in each of these categories
 lst_df_slices = []
 
 for var in things_to_sort_on:
@@ -117,8 +127,6 @@ sns.set_style('whitegrid')
 plot_scatters(df_only_proxies, cols, 'WC_LIBRARIES', 'red', 15, 4, remove_outliers=False, outlier_percentile=100, show_corr_values=True)
 plot_scatters(df_only_proxies, cols2, 'WC_LIBRARIES', 'red', 18, 4, remove_outliers=False, outlier_percentile=100, show_corr_values=True)
 
-
-
 # We could do some more things here, like plotting the correlation between the different prizes and the ratings
 # but I think we have enough for now
 
@@ -129,6 +137,7 @@ plot_scatters(df_only_proxies, cols2, 'WC_LIBRARIES', 'red', 18, 4, remove_outli
 # %%
 
 # PART 2: RATING DISTRIBUTIONS
+# (something i was curious about)
 
 # Let's have a look at rating distributions
 print(list(df['GR_RATING_DICT']))
@@ -141,6 +150,7 @@ def rating_dist_to_dict(rating_str):
     rating_dict = json.loads(rating_str.replace("'", '"'))
     return rating_dict
 
+# then a function to convert the dictionary to a list (so if in the dictionary 5:100, we get a hundred 5s, for example)
 def rating_dict_to_list(rating_dict):
     rating_list = []
     for rating, count in rating_dict.items():
@@ -149,19 +159,17 @@ def rating_dict_to_list(rating_dict):
     print(list(set(rating_list)))
     return rating_list
 
-# Apply the function to the DataFrame column
+# Apply the function to the DataFrame column (in two steps)
 df['RATING_DIST_DICT'] = df['GR_RATING_DICT'].apply(rating_dist_to_dict)
-df.head()
-
-# %%
 df['RATING_DIST_LIST'] = df['RATING_DIST_DICT'].apply(rating_dict_to_list)
 df.head()
-df['RATING_DIST_LIST']
 
 # %%
 # Function to compute entropy from a list of ratings
 # We basically do what Maity et al. (2018) also did: https://arxiv.org/pdf/1809.07354.pdf
 # Calculate the entropy of ditributions
+
+# we could also use this function from the nk package, but let's use scipy as below
 #df['RATING_DIST_ENTROPY'] = df['RATING_DIST_LIST'].apply(lambda x: nk.entropy_shannon([float(item) for item in x])[0]) # Just get the entropy [0] not the dict
 
 def compute_entropy(rating_list):
@@ -191,15 +199,15 @@ df.head()
 
 
 # %%
-# # get the average rating from the dictionary for each row
+# # is it possible to get the average rating from the dictionary for each row and does it match with the AVG_RATING?
 # df['RATING_FROM_DICT'] = df['RATING_DIST_LIST'].apply(lambda x: np.mean([float(item) for item in x]))
 # df['RATING_FROM_DICT']
+# yes it does, good.
 
-# # %%
-# df['AVG_RATING']
 # %%
-# is there a correlation between these and rating count?
+# is there a correlation between these features of the rating distribution and the rating count?
 
+# rating count?
 cols = ['RATING_DIST_ENTROPY', 'RATING_DIST_KURTOSIS', 'RATING_DIST_SKEW', 'RATING_DIST_STD']
 plot_scatters(df, cols, 'RATING_COUNT', 'red', 18, 4, remove_outliers=False, outlier_percentile=100, show_corr_values=True)
 
@@ -216,11 +224,12 @@ for col in cols:
     plt.legend('')
 
 # %%
+# make it interactive
 x = plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'RATING_COUNT', '', 1000, 500, 'TITLE', color_canon=False, save=True)
 #plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'AVG_RATING', '', 1000, 500, 'TITLE', color_canon=False, save=False)
 
 # %%
-
+# plot the rating distributions of individual books
 # We need to flatten
 def flatten_list(lst):
     return [item for sublist in lst for item in sublist]
@@ -271,7 +280,6 @@ plt.tight_layout()
 plt.show()
 
 # %%
-# %%
 # see if the prize-winning books have higher entropy
 # Compute the row-wise sum
 df_prizes = df.copy()
@@ -285,6 +293,8 @@ histplot_two_groups(no_wins_df, wins_df, measures, measures, ['no_wins/noms', 'w
 
 print(len(wins_df), len(no_wins_df))
 
+# %%
+print("done for now!:)")
 
 # # dump to json and excel
 # df.to_excel('data/king_w_data_updated.xlsx')
