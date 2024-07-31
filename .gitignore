@@ -18,6 +18,7 @@ __pycache__/
 # Ignore data files
 scraping/
 data/big_gr/
+story_graph_stuff/
 
 # ignore the script
 big_gr_data.py

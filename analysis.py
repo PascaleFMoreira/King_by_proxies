@@ -1,14 +1,11 @@
 # %%
+#!pip install -r requirements.txt
 from utils import *
-from importlib import reload
-import utils
-reload(utils)
 
 # %%
 # Load the data
 with open('data/king_books_w_data.json', 'r') as f:
     data = json.load(f)
-
 # Create a DataFrame
 df = pd.DataFrame.from_dict(data)
 df.head()
@@ -306,3 +303,6 @@ print("done for now!:)")
 # df.to_json('data/king_books_w_data.json')
 # %%
 
+# from importlib import reload
+# import utils
+# reload(utils)

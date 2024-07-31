@@ -9,9 +9,6 @@ from scipy.stats import spearmanr
 import plotly.express as px
 import os
 
-import neurokit2 as nk
-
-
 ## plotting DISTRIBUTIONS
 def plot_kdeplots_or_histograms(df, scores_list, type, plottitle, plts_per_row, l, h):
     plots_per_row = plts_per_row
