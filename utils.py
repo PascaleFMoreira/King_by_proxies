@@ -181,7 +181,7 @@ def plot_scatters(df, scores_list, var, color, w, h, remove_outliers=False, outl
             df = df.loc[df[score] <= percentile]
         
         sns.scatterplot(data=df, x=var, y=score, ax=axes_list[index],
-                        color=color, s= 35, alpha= 0.3, palette='rocket', legend=False)
+                        color=color, s= 35, alpha= 0.3, legend=False)
             
         # I want to add the spearman corr as title of each sublot
         if show_corr_values == True:

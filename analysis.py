@@ -28,6 +28,9 @@ df_only_cont = df[['TITLE',
        'WC_EDITIONS', 'WC_LIBRARIES', 
        'TRANSLATION_COUNT', 'OPEN_SYLLABUS_APPEARANCES']]
 # %%
+
+# PART 1: CORRELATIONS
+
 # Lets make a heatmap
 sns.set_style('whitegrid')
 plt.figure(figsize=(7, 4))
@@ -40,7 +43,7 @@ plt.show()
 sns.set_style('whitegrid')
 filter_df = df_only_cont.drop(columns=['TITLE'])
 corr_df = filter_df.corr(method='spearman')
-sns.clustermap(corr_df, annot=True, cbar=False, figsize=(9, 9))
+sns.clustermap(corr_df, annot=True, cbar=False, figsize=(12, 12))
 plt.show()
 
 # %%
@@ -55,7 +58,7 @@ df_transformed[columns_to_replace_prizes] = df_transformed[columns_to_replace_pr
 sns.set_style('whitegrid')
 filter_df = df_transformed.drop(columns=['TITLE'])
 corr_df = filter_df.corr(method='spearman')
-sns.clustermap(corr_df, annot=True, cbar=False, figsize=(11, 11))
+sns.clustermap(corr_df, annot=True, cbar=False, figsize=(18, 16))
 plt.show()
 
 # %%
@@ -114,7 +117,18 @@ sns.set_style('whitegrid')
 plot_scatters(df_only_proxies, cols, 'WC_LIBRARIES', 'red', 15, 4, remove_outliers=False, outlier_percentile=100, show_corr_values=True)
 plot_scatters(df_only_proxies, cols2, 'WC_LIBRARIES', 'red', 18, 4, remove_outliers=False, outlier_percentile=100, show_corr_values=True)
 
+
+
+# We could do some more things here, like plotting the correlation between the different prizes and the ratings
+# but I think we have enough for now
+
+
+
+
+
 # %%
+
+# PART 2: RATING DISTRIBUTIONS
 
 # Let's have a look at rating distributions
 print(list(df['GR_RATING_DICT']))
@@ -122,21 +136,26 @@ print(list(df['GR_RATING_DICT']))
 # %%
 # we want to make sure we get everything in dictionary form
 # Define a function to safely convert string to dictionary
-# def rating_dist_to_list(rating_str):
-#     # Convert the string to a dictionary
-#     rating_dict = json.loads(rating_str.replace("'", '"'))
+def rating_dist_to_list(rating_str):
+    # Convert the string to a dictionary
+    rating_dict = json.loads(rating_str.replace("'", '"'))
+# Create a list of ratings based on the count
+    rating_list = []
+    for rating, count in rating_dict.items():
+        rating_list.extend([int(rating)] * count)
     
-#     # Create a list of ratings based on the count
-#     rating_list = []
-#     for rating, count in rating_dict.items():
-#         rating_list.extend([int(rating)] * count)
-    
-#     return rating_list
+    return rating_list
 
-# # Apply the function to the DataFrame column
-# df['RATING_DIST_LIST'] = df['GR_RATING_DICT'].apply(rating_dist_to_list)
+# Apply the function to the DataFrame column
+df['RATING_DIST_LIST'] = df['GR_RATING_DICT'].apply(rating_dist_to_list)
+df.head()
 
+# %%
 # Function to compute entropy from a list of ratings
+# We basically do what Maity et al. (2018) also did: https://arxiv.org/pdf/1809.07354.pdf
+# Calculate the entropy of ditributions
+#df['RATING_DIST_ENTROPY'] = df['RATING_DIST_LIST'].apply(lambda x: nk.entropy_shannon([float(item) for item in x])[0]) # Just get the entropy [0] not the dict
+
 def compute_entropy(rating_list):
     # Calculate the frequency of each rating
     values, counts = np.unique(rating_list, return_counts=True)
@@ -146,26 +165,35 @@ def compute_entropy(rating_list):
     ent = stats.entropy(probabilities, base=2)  # base 2 for entropy in bits
     return ent
 
-# Apply the entropy computation to the DataFrame column
+# And to calculate the skew/kurtosis
+def check_skew(l):
+    s = stats.skew(l)
+    return s
+
+def check_kurt(l):
+    k = stats.kurtosis(l)
+    return k
+
+# apply the functions to the rating distributions
 df['RATING_DIST_ENTROPY'] = df['RATING_DIST_LIST'].apply(compute_entropy)
-
+df['RATING_DIST_KURTOSIS'] = df['RATING_DIST_LIST'].apply(check_kurt)
+df['RATING_DIST_SKEW'] = df['RATING_DIST_LIST'].apply(check_skew)
+df['RATING_DIST_STD'] = df['RATING_DIST_LIST'].apply(lambda x: np.std([float(item) for item in x]))
 df.head()
-# %%
-# We basically do what Maity et al. (2018) also did: https://arxiv.org/pdf/1809.07354.pdf
-# Calculate the entropy of ditributions
-#df['RATING_DIST_ENTROPY'] = df['RATING_DIST_LIST'].apply(lambda x: nk.entropy_shannon([float(item) for item in x])[0]) # Just get the entropy [0] not the dict
-df.head()
-# %%
-# is there a correlation between entropy and rating count?
 
-stats.spearmanr(df['RATING_DIST_ENTROPY'], df['RATING_COUNT'])
-# yes, so the higher the rating count, the lower the entropy (0.45 correlation)
+# %%
+# is there a correlation between these and rating count?
 
+cols = ['RATING_DIST_ENTROPY', 'RATING_DIST_KURTOSIS', 'RATING_DIST_SKEW', 'RATING_DIST_STD']
+plot_scatters(df, cols, 'RATING_COUNT', 'red', 18, 4, remove_outliers=False, outlier_percentile=100, show_corr_values=True)
+
+# what about AVG_RATING?
+plot_scatters(df, cols, 'AVG_RATING', 'red', 18, 4, remove_outliers=False, outlier_percentile=100, show_corr_values=True)
 # %%
 # lets get an annotated plot with rating on y and entropy on x
 cols = ['AVG_RATING', 'RATING_COUNT']
 for col in cols:
-    plt.figure(figsize=(15, 8))
+    plt.figure(figsize=(18, 8))
     sns.scatterplot(data=df, x='RATING_DIST_ENTROPY', y=col, hue='TITLE', palette='rocket', s=100)
     for i in range(len(df)):
         plt.text(df['RATING_DIST_ENTROPY'][i], df[col][i], df['TITLE'][i], fontsize=8)
@@ -173,7 +201,7 @@ for col in cols:
 
 # %%
 plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'RATING_COUNT', '', 1000, 500, 'TITLE', color_canon=False, save=True)
-plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'AVG_RATING', '', 1000, 500, 'TITLE', color_canon=False, save=False)
+#plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'AVG_RATING', '', 1000, 500, 'TITLE', color_canon=False, save=False)
 
 # %%
 # see if the prize-winning books have higher entropy
@@ -190,17 +218,18 @@ wins = df_prizes[df_prizes['prize_wins'] == 1]
 no_wins = df_prizes[df_prizes['prize_wins'] == 0]
 
 measures = ['RATING_DIST_ENTROPY', 'RATING_COUNT', 'AVG_RATING']
-histplot_two_groups(wins, no_wins, measures, measures, ['prizes', 'no_prizes'], 20, 8, 'comparing groups', density=False, save=False, save_title=False)
-
+histplot_two_groups(wins, no_wins, measures, measures, ['prizes', 'no_prizes'], 28, 8, 'comparing groups', density=False, save=False, save_title=False)
 
 
 # %%
 df.head()
 # %%
-# dump to json and excel
+# # dump to json and excel
 # df.to_excel('data/king_w_data_updated.xlsx')
 
 # df = pd.read_excel('data/king_w_data_updated.xlsx')
 # df.head()
+
+# # %%
 # df.to_json('data/king_books_w_data.json')
 # %%
