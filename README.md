@@ -2,6 +2,15 @@
 
 # Prelim. results
 
+## Awards wins/nominations
+Note that the majority of king's books have won or have been nominated for an award
+38 books were nominated for at least 1 award 
+4 books won at least 1 award
+(of the awards we consider, there may be more)
+
+23 books have not won/been nominated for any award
+
+
 ## On correlations between proxies
 
 ### Note on translations & editions numbers
@@ -42,13 +51,13 @@ Strongest intercorrelations of prizes are between LOCUS_SF and BFA, and between 
 
 We see here though that entropy has a negative correlation to rating count (spearman 0.45, p<0.01) - so in the case of king, the more highly rated books also have a lower entropy, i.e., less disagreement between raters. 0.45 is a robust correlation, and it does not seem to be as strong when looking at a larger corpus of books on GoodReads (did some cross-checking, where we see a correlation between entrpy/rating count at 0.22).
 
-You can see the distribution at: 'rating_entropy_vs_rating_counts.png' --- and have a look at the [interactive figure here](https://pascalefmoreira.github.io/pascalefeldkamp/show_stuff_page_2.html)
-
-Some books with very high and very low entropy of their rating distribution:
 <img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/rating_entropy_vs_rating_count.png" width="70%" align="right" />
+See the scatterplot of rating count/entropy above (also in figures: 'rating_entropy_vs_rating_counts.png') --- and have a look at the [interactive figure here](https://pascalefmoreira.github.io/pascalefeldkamp/show_stuff_page_2.html)
 
-
-
+A few examples of the distributions of books with very high and very low entropy of their rating distributions:
 <img src=!https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/some_books.png" width="100%" align="right>
 
-We might also want to try out other correlations with entropy, where high entropy might indicate "contested titles", e.g. looking at whether these are less likely to win prizes etc.
+## We could do some more on comparing prizes/no prizes groups
+I just did a little comparison with the GoodReads data (but could also be checked for translations, libraries, etc., trying to gauge the "importance" of the prize-winning books in terms of other proxies)
+See e.g.:
+<img src=!https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/wins_noms_compared.png" width="100%" align="right>
