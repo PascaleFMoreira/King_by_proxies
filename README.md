@@ -55,9 +55,10 @@ We see here though that entropy has a negative correlation to rating count (spea
 See the scatterplot of rating count/entropy above (also in figures: 'rating_entropy_vs_rating_counts.png') --- and have a look at the [interactive figure here](https://pascalefmoreira.github.io/pascalefeldkamp/show_stuff_page_2.html)
 
 A few examples of the distributions of books with very high and very low entropy of their rating distributions:
-<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/some_books.png" width="100%" align="right>
+
+<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/some_books.png" width="100%" align="right" />
 
 ## We could do some more on comparing prizes/no prizes groups
 I just did a little comparison with the GoodReads data (but could also be checked for translations, libraries, etc., trying to gauge the "importance" of the prize-winning books in terms of other proxies)
 See e.g.:
-<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/wins_noms_compared.png" width="100%" align="right>
+<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/wins_noms_compared.png" width="100%" align="right" />
