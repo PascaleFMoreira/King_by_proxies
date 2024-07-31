@@ -216,26 +216,27 @@ for col in cols:
     plt.legend('')
 
 # %%
-plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'RATING_COUNT', '', 1000, 500, 'TITLE', color_canon=False, save=True)
+x = plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'RATING_COUNT', '', 1000, 500, 'TITLE', color_canon=False, save=True)
 #plotly_viz_correlation_improved(df, 'RATING_DIST_ENTROPY', 'AVG_RATING', '', 1000, 500, 'TITLE', color_canon=False, save=False)
 
 # %%
 # see if the prize-winning books have higher entropy
 # Compute the row-wise sum
 df_prizes = df.copy()
-df_prizes[columns_to_replace_prizes] = df_prizes[columns_to_replace_prizes].replace({'W': 1,'N': 1})
+df_prizes[columns_to_replace_prizes] = df_prizes[columns_to_replace_prizes].replace({'W': 1,'N': 0})
 df_prizes['prize_wins'] = df_prizes[columns_to_replace_prizes].fillna(0).astype(int).max(axis=1)
 
 # scatterplot to see
 plotly_viz_correlation_improved(df_prizes, 'RATING_DIST_ENTROPY', 'RATING_COUNT', 'prize_wins', 1000, 500, 'TITLE', color_canon=True, save=False)
 
+# %%
 # distributions comparison of the two groups (prize/no prize)
 wins = df_prizes[df_prizes['prize_wins'] == 1]
 no_wins = df_prizes[df_prizes['prize_wins'] == 0]
 
-measures = ['RATING_DIST_ENTROPY', 'RATING_COUNT', 'AVG_RATING']
+measures = ['RATING_DIST_ENTROPY', 'RATING_DIST_STD', 'RATING_COUNT', 'AVG_RATING']
 histplot_two_groups(wins, no_wins, measures, measures, ['prizes', 'no_prizes'], 28, 8, 'comparing groups', density=False, save=False, save_title=False)
-
+print(len(wins), len(no_wins))
 
 # %%
 df.head()

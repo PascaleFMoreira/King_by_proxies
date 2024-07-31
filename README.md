@@ -38,13 +38,17 @@ Strongest intercorrelations of prizes are between LOCUS_SF and BFA, and between 
 <img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/expanded_clustermap.png" width="100%" align="right" />
 
 ## On the entropy of ratings (goodreads)
-- studies before have found that titles with a high number of ratings also have a more polarised reception (i.e., more 1s and 5s) - which would mean that the distribution would (supposedly) have a higher entropy. We see here though that entropy has a negative correlation to rating count (spearman 0.45, p<0.01) - so in the case of king, the more highly rated books also have a lower entropy, i.e., less disagreement between raters. 
+- e.g. [Kovacs & Shakey (2014)](https://doi.org/10.1177/0001839214523602) have found that titles that win awards will get a lower GoodReads average score after the award because they get a more polarised reception (i.e., more 1s and 5s) – i.e., their rating distribution becomes more entropic. We can use entropy on the rating distributions to see if there is a polarised rating behaviour is the case for King's books. (also using *entropy* on rating distributions: Maity et al. 2018: [https://arxiv.org/pdf/1809.07354](https://arxiv.org/pdf/1809.07354)) 
+
+We see here though that entropy has a negative correlation to rating count (spearman 0.45, p<0.01) - so in the case of king, the more highly rated books also have a lower entropy, i.e., less disagreement between raters. 0.45 is a robust correlation, and it does not seem to be as strong when looking at a larger corpus of books on GoodReads (did some cross-checking, where we see a correlation between entrpy/rating count at 0.22).
 
 You can see the distribution at: 'rating_entropy_vs_rating_counts.png' --- and have a look at the [interactive figure here](https://pascalefmoreira.github.io/pascalefeldkamp/show_stuff_page_2.html)
 
+Some books with very high and very low entropy of their rating distribution:
 <img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/rating_entropy_vs_rating_count.png" width="70%" align="right" />
 
 
-0.45 is a robust correlation, so let's make sure this is right before going further. 
+
+<img src=!https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/some_books.png" width="100%" align="right>
 
 We might also want to try out other correlations with entropy, where high entropy might indicate "contested titles", e.g. looking at whether these are less likely to win prizes etc.
