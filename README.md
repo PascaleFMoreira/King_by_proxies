@@ -1,6 +1,6 @@
 # KING colab
 
-See the main data in ´´´data/king_books_w_data.json´´´ or in ´´´data/king_w_data.xlsx´´´ or in this [google sheet](https://docs.google.com/spreadsheets/d/1lxeqV86UsVh9hDutmvg4LzJW4HISoIIepKndB4d5NDA/edit?usp=sharing)
+See the main data in ```data/king_books_w_data.json``` or in ```data/king_w_data.xlsx``` or in this [google sheet](https://docs.google.com/spreadsheets/d/1lxeqV86UsVh9hDutmvg4LzJW4HISoIIepKndB4d5NDA/edit?usp=sharing)
 
 # Prelim. results
 
