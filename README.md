@@ -64,7 +64,14 @@ See the scatterplot of rating count/entropy above (also in figures: 'rating_entr
 
 A few examples of the distributions of books with very high and very low entropy of their rating distributions:
 
+<img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/rating_dist_avg_rating.png" width="100%" align="right" />
+
+
+I think there is something to be said on that the higher the avg rating, the lower the entropy, in the case of king. 
+Moreover, the avg rating and rating count seem to correlate here (which is not the case in a larger goodreads dataset!)
+
 <img src="https://github.com/PascaleFMoreira/King_by_proxies/raw/main/figures/some_books.png" width="100%" align="right" />
+
 
 ## We could do some more on comparing prizes/no prizes groups
 I just did a little comparison with the GoodReads data (but could also be checked for translations, libraries, etc., trying to gauge the "importance" of the prize-winning books in terms of other proxies)
